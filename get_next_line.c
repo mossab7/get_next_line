@@ -12,35 +12,23 @@
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*joinstrs;
-	size_t	size;
-
-	if (!s1 || !s2)
-		return (NULL);
-	size = ft_strlen(s1) + ft_strlen(s2);
-	joinstrs = malloc((size + 1) * sizeof(char));
-	if (!joinstrs)
-		return (NULL);
-	ft_strcpy(joinstrs, s1);
-	ft_strcat(joinstrs, s2);
-	return (joinstrs);
-}
-
 void	ft_strmerge(char **dest, char *src)
 {
-	char	*temp;
+	char	*tmp;
+	size_t	size;
 
 	if (!*dest)
 		*dest = ft_strdup("");
 	if (!*dest)
 		return ;
-	temp = ft_strjoin(*dest, src);
-	if (temp)
+	size = ft_strlen(*dest) + ft_strlen(src);
+	tmp = malloc((size + 1) * sizeof(char));
+	if (tmp)
 	{
+		ft_strcpy(tmp, *dest);
+		ft_strcat(tmp, src);
 		free(*dest);
-		*dest = temp;
+		*dest = tmp;
 	}
 }
 
