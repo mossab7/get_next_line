@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utilities.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbouhia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/06 15:56:44 by mbouhia           #+#    #+#             */
+/*   Updated: 2024/11/06 15:56:45 by mbouhia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 char	*ft_strcat(char *dest, const char *src)
@@ -29,6 +41,7 @@ char	*ft_strchr(const char *str, int c)
 		return ((char *)str);
 	return (NULL);
 }
+
 char	*ft_strcpy(char *dest, const char *src)
 {
 	int	i;
@@ -42,6 +55,7 @@ char	*ft_strcpy(char *dest, const char *src)
 	dest[i] = '\0';
 	return (dest);
 }
+
 size_t	ft_strlen(const char *str)
 {
 	size_t	len;
@@ -51,6 +65,7 @@ size_t	ft_strlen(const char *str)
 		len++;
 	return (len);
 }
+
 char	*ft_strdup(const char *src)
 {
 	size_t	len;
