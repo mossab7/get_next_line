@@ -61,7 +61,7 @@ char	*extract_line(char **stored, char *newline_pos)
 
 char	*get_next_line(int fd)
 {
-	static char	*stored;
+	static char	*stored[OPEN_MAX];
 	char		*buffer;
 	char		*newline_pos;
 	int			bytes_read;
@@ -72,23 +72,23 @@ char	*get_next_line(int fd)
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if(!buffer)
 		return NULL;
-	while (!stored || !ft_strchr(stored, '\n', &newline_pos))
+	while (!stored[fd] || !ft_strchr(stored[fd], '\n', &newline_pos))
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
 		{
-			free(stored);
-			stored = NULL;
+			free(stored[fd]);
+			stored[fd] = NULL;
 			return (NULL);
 		}
 		if (bytes_read == 0)
 			break ;
 		buffer[bytes_read] = '\0';
-		ft_strmerge(&stored, buffer);
-		if (!stored)
+		ft_strmerge(&stored[fd], buffer);
+		if (!stored[fd])
 			return (NULL);
 	}
 	free(buffer);
 	buffer = NULL;
-	return (extract_line(&stored, newline_pos));
+	return (extract_line(&stored[fd], newline_pos));
 }
