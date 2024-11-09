@@ -1,1 +1,0 @@
-cc -Wall -Wextra -Werror -D BUFFER_SIZE=8374906 get_next_line.c get_next_line_utilities.c main.c -o test
