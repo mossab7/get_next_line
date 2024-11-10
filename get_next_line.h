@@ -34,7 +34,7 @@ char		*get_next_line(int fd);
 char		*ft_strjoin(char const *s1, char const *s2);
 void		ft_strmerge(char **dest, char *src);
 size_t		ft_strlen(const char *s);
-char		*ft_strcpy(char *dst, const char *src);
+char		*free_stored(char **content);
 size_t		read_to_buffer(t_stored *stored, int fd);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_strcat(char *s1, const char *s2);

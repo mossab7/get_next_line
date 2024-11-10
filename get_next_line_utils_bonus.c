@@ -39,18 +39,11 @@ char	*ft_strcat(char *dest, const char *src)
 	return (original);
 }
 
-char	*ft_strcpy(char *dest, const char *src)
+char	*free_stored(char **content)
 {
-	int	i;
-
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	free(*content);
+	*content = NULL;
+	return (NULL);
 }
 
 char	*ft_strdup(const char *src)
@@ -62,7 +55,13 @@ char	*ft_strdup(const char *src)
 	dest = (char *)malloc((len + 1) * sizeof(char));
 	if (!dest)
 		return (NULL);
-	ft_strcpy(dest, src);
+	len = 0;
+	while (src[len])
+	{
+		dest[len] = src[len];
+		len++;
+	}
+	dest[len] = '\0';
 	return (dest);
 }
 
@@ -81,7 +80,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	joinstrs = malloc((size + 1) * sizeof(char));
 	if (!joinstrs)
 		return (NULL);
-	ft_strcpy(joinstrs, s1);
+	size = 0;
+	while (s1[size])
+	{
+		joinstrs[size] = s1[size];
+		size++;
+	}
+	joinstrs[size] = '\0';
 	ft_strcat(joinstrs, s2);
 	return (joinstrs);
 }

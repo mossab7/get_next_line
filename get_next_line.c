@@ -6,7 +6,7 @@
 /*   By: mbouhia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 22:39:55 by mbouhia           #+#    #+#             */
-/*   Updated: 2024/11/09 22:39:57 by mbouhia          ###   ########.fr       */
+/*   Updated: 2024/11/10 11:32:22 by mbouhia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,18 @@ char	*extract_line(t_stored *stored)
 
 	if (stored->content[stored->last_pos] == '\n')
 		stored->last_pos++;
-	else if (stored->content[stored->last_pos] != '\0')
-		stored->last_pos = ft_strlen(stored->content);
 	line = ft_substr(stored->content, 0, stored->last_pos);
 	if (!line)
-		return (NULL);
+	{
+		return (free_stored(&(stored->content)));
+	}
 	if (stored->content[stored->last_pos])
 	{
 		remaining = ft_strdup(&stored->content[stored->last_pos]);
 		if (!remaining)
 		{
 			free(line);
-			return (NULL);
+			return (free_stored(&(stored->content)));
 		}
 	}
 	else
@@ -96,7 +96,7 @@ size_t	read_to_buffer(t_stored *stored, int fd)
 
 	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
-		return (0);
+		return (-1);
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (bytes_read <= 0)
 	{
@@ -107,7 +107,7 @@ size_t	read_to_buffer(t_stored *stored, int fd)
 	temp = ft_strjoin(stored->content, buffer);
 	free(buffer);
 	if (!temp)
-		return (0);
+		return (-1);
 	free(stored->content);
 	stored->content = temp;
 	return (bytes_read);
@@ -121,12 +121,16 @@ char	*get_next_line(int fd)
 	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
 	stored.last_pos = 0;
-	if (!stored.content)
-		bytes_read = read_to_buffer(&stored, fd);
-	while (!ft_strchr(&stored, '\n'))
+	while (!stored.content || !ft_strchr(&stored, '\n'))
 	{
 		bytes_read = read_to_buffer(&stored, fd);
-		if (bytes_read <= 0)
+		if (bytes_read < 0)
+		{
+			free (stored.content);
+			stored.content = NULL;
+			return (NULL);
+		}
+		if (bytes_read == 0)
 			break ;
 	}
 	if (!stored.content)
